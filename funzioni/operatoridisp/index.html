@@ -9,7 +9,7 @@
 <script>
     (function() {
         var isLogged = localStorage.getItem('tw_structure_id') || localStorage.getItem('tw_user');
-        /* FIX: Reindirizzamento corretto a 1 livello di profondità */
+        /* FIX APPLICATO: Un solo livello di profondità per non uscire dal sito */
         if (!isLogged) window.location.replace('../login.html');
     })();
 </script>
@@ -24,7 +24,6 @@
 <script src="../master_core/Component_Modals.js?v=6"></script>
 <script src="../master_core/UI_Form.js?v=6"></script>
 
-<!-- Questo rimane uguale perché è nella stessa cartella -->
 <script src="Logic_Operatori.js?v=6"></script>
 
 <style>
@@ -71,15 +70,14 @@
     <i class="material-icons-round" style="font-size:20px;">info</i><span id="toastMsg">Notifica</span>
 </div>
 
-<!-- LASCIA SOLO QUESTO, LA NAVBAR SI INIETTERA' QUI -->
 <div id="tw-universal-navbar"></div>
+<!-- FIX APPLICATO: Navbar in minuscolo per compatibilità GitHub -->
 <script src="../master_core/component_navbar.js?v=6"></script>
 
 <div class="layout">
     <div class="grid-container" id="mainGrid"></div>
 </div>
 
-<!-- MODALE SBLOCCO ADMIN -->
 <div id="adminAuthModal" class="modal-overlay" onclick="if(event.target===this) document.getElementById('adminAuthModal').style.display='none'">
     <div class="modal-box">
         <h2 style="color:var(--purple); margin-top:0; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border-line); padding-bottom:15px;">
