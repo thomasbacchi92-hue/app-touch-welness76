@@ -9,8 +9,8 @@
 <script>
     (function() {
         var isLogged = localStorage.getItem('tw_structure_id') || localStorage.getItem('tw_user');
-        /* FIX APPLICATO: Un solo livello di profondità per non uscire dal sito */
-        if (!isLogged) window.location.replace('../login.html');
+        /* FIX: 2 livelli indietro per tornare alla root da /funzioni/operatoridisp/ */
+        if (!isLogged) window.location.replace('../../login.html');
     })();
 </script>
 
@@ -18,12 +18,14 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
-<script src="../DeviceSync.js"></script>
-<script src="../master_core/Desktop_AuthSync.js?v=6"></script>
-<script src="../master_core/Data_Core.js?v=6"></script>
-<script src="../master_core/Component_Modals.js?v=6"></script>
-<script src="../master_core/UI_Form.js?v=6"></script>
+<!-- FIX: 2 livelli indietro (../../) + cartella master_core in minuscolo -->
+<script src="../../DeviceSync.js"></script>
+<script src="../../master_core/Desktop_AuthSync.js?v=6"></script>
+<script src="../../master_core/Data_Core.js?v=6"></script>
+<script src="../../master_core/Component_Modals.js?v=6"></script>
+<script src="../../master_core/UI_Form.js?v=6"></script>
 
+<!-- Rimane uguale perché è nella stessa cartella -->
 <script src="Logic_Operatori.js?v=6"></script>
 
 <style>
@@ -71,13 +73,14 @@
 </div>
 
 <div id="tw-universal-navbar"></div>
-<!-- FIX APPLICATO: Navbar in minuscolo per compatibilità GitHub -->
-<script src="../master_core/component_navbar.js?v=6"></script>
+<!-- FIX: 2 livelli indietro + tutto minuscolo -->
+<script src="../../master_core/component_navbar.js?v=6"></script>
 
 <div class="layout">
     <div class="grid-container" id="mainGrid"></div>
 </div>
 
+<!-- MODALE SBLOCCO ADMIN -->
 <div id="adminAuthModal" class="modal-overlay" onclick="if(event.target===this) document.getElementById('adminAuthModal').style.display='none'">
     <div class="modal-box">
         <h2 style="color:var(--purple); margin-top:0; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border-line); padding-bottom:15px;">
