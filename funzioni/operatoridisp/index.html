@@ -9,7 +9,6 @@
 <script>
     (function() {
         var isLogged = localStorage.getItem('tw_structure_id') || localStorage.getItem('tw_user');
-        /* FIX: 2 livelli indietro per tornare alla root da /funzioni/operatoridisp/ */
         if (!isLogged) window.location.replace('../../login.html');
     })();
 </script>
@@ -18,14 +17,12 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
-<!-- FIX: 2 livelli indietro (../../) + cartella master_core in minuscolo -->
 <script src="../../DeviceSync.js"></script>
 <script src="../../master_core/Desktop_AuthSync.js?v=6"></script>
 <script src="../../master_core/Data_Core.js?v=6"></script>
 <script src="../../master_core/Component_Modals.js?v=6"></script>
 <script src="../../master_core/UI_Form.js?v=6"></script>
 
-<!-- Rimane uguale perché è nella stessa cartella -->
 <script src="Logic_Operatori.js?v=6"></script>
 
 <style>
@@ -72,8 +69,15 @@
     <i class="material-icons-round" style="font-size:20px;">info</i><span id="toastMsg">Notifica</span>
 </div>
 
+<!-- CONTEXT MENU ADMIN (TASTO DESTRO) -->
+<div id="tw-admin-context" style="display:none; position:fixed; background:var(--bg-panel); border:1px solid var(--border-line); border-radius:8px; box-shadow:0 10px 25px rgba(0,0,0,0.5); z-index:9999; flex-direction:column; overflow:hidden; min-width:180px;">
+    <button style="background:transparent; border:none; padding:12px 15px; text-align:left; cursor:pointer; font-size:13px; font-weight:bold; display:flex; align-items:center; gap:10px; transition:0.2s; width:100%;" onclick="document.getElementById('tw-admin-context').style.display='none'; window.sysOpenAdminModal();" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+        <i id="adminCtxIcon" class="material-icons-round" style="color:var(--gold);">admin_panel_settings</i> 
+        <span id="adminCtxText" style="color:var(--gold);">Sblocca Admin</span>
+    </button>
+</div>
+
 <div id="tw-universal-navbar"></div>
-<!-- FIX: 2 livelli indietro + tutto minuscolo -->
 <script src="../../master_core/component_navbar.js?v=6"></script>
 
 <div class="layout">
@@ -189,6 +193,44 @@
             setTimeout(() => { x.style.display="none"; }, 3000);
         }
     };
+
+    // GESTIONE TASTO DESTRO E MENU RAPIDO
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        const ctx = document.getElementById('tw-admin-context');
+        const adminText = document.getElementById('adminCtxText');
+        const adminIcon = document.getElementById('adminCtxIcon');
+        
+        if (window.isAdminMode) {
+            adminText.innerText = "Blocca Trasparenza";
+            adminText.style.color = "var(--text-main)";
+            adminIcon.innerText = "lock";
+            adminIcon.style.color = "var(--text-muted)";
+        } else {
+            adminText.innerText = "Sblocca Admin";
+            adminText.style.color = "var(--gold)";
+            adminIcon.innerText = "admin_panel_settings";
+            adminIcon.style.color = "var(--gold)";
+        }
+        
+        let posX = e.clientX;
+        let posY = e.clientY;
+        ctx.style.display = "flex";
+        const rect = ctx.getBoundingClientRect();
+        
+        if (posX + rect.width > window.innerWidth) posX = window.innerWidth - rect.width - 10;
+        if (posY + rect.height > window.innerHeight) posY = window.innerHeight - rect.height - 10;
+        
+        ctx.style.left = posX + "px";
+        ctx.style.top = posY + "px";
+    });
+
+    document.addEventListener('click', function(e) {
+        const ctx = document.getElementById('tw-admin-context');
+        if (ctx && ctx.style.display === 'flex' && !ctx.contains(e.target)) {
+            ctx.style.display = 'none';
+        }
+    });
 </script>
 </body>
 </html>
